@@ -2,7 +2,7 @@
 const CLIENT_ID = process.env.SPOTIFY_CLIENT_ID;
 const CLIENT_SECRET = process.env.SPOTIFY_CLIENT_SECRET;
 
-const redirectUri = 'http://localhost:8000'; // Update this to your redirect URI
+const redirectUri = 'https://v2-0-vercel-real.vercel.app'; // Update this to your redirect URI
 
 // TIMING CONTROLS
 const NEXT_SONG_POPUP_TIME = 5000; // Time in milliseconds before the end of the song to show the next song popup
