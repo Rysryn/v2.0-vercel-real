@@ -2,7 +2,9 @@
 const CLIENT_ID = process.env.SPOTIFY_CLIENT_ID;
 const CLIENT_SECRET = process.env.SPOTIFY_CLIENT_SECRET;
 
-const redirectUri = 'https://v2-0-vercel-real.vercel.app'; // Update this to your redirect URI
+const redirectUri = 'https://v2-0-vercel-real.vercel.app/callback'; // Update this to your redirect URI
+
+
 
 // TIMING CONTROLS
 const NEXT_SONG_POPUP_TIME = 5000; // Time in milliseconds before the end of the song to show the next song popup
@@ -25,24 +27,32 @@ let wallpaperInterval;
 let isPlaceholderActive = false;
 
 function checkAuth() {
-    accessToken = localStorage.getItem('spotify_access_token');
-    refreshToken = localStorage.getItem('spotify_refresh_token');
-    expirationTime = localStorage.getItem('spotify_expiration_time');
+    const urlParams = new URLSearchParams(window.location.search);
+    accessToken = urlParams.get('access_token') || localStorage.getItem('spotify_access_token');
+    refreshToken = urlParams.get('refresh_token') || localStorage.getItem('spotify_refresh_token');
+    const expiresIn = urlParams.get('expires_in');
 
-    if (accessToken && refreshToken && expirationTime) {
-        if (Date.now() > parseInt(expirationTime)) {
-            refreshAccessToken();
+    if (accessToken && refreshToken) {
+        localStorage.setItem('spotify_access_token', accessToken);
+        localStorage.setItem('spotify_refresh_token', refreshToken);
+        if (expiresIn) {
+            expirationTime = Date.now() + parseInt(expiresIn) * 1000;
+            localStorage.setItem('spotify_expiration_time', expirationTime);
         } else {
-            startApp();
+            expirationTime = localStorage.getItem('spotify_expiration_time');
         }
+
+        // Clear the URL parameters
+        window.history.replaceState({}, document.title, "/");
+
+        startApp();
     } else {
         authorize();
     }
 }
 
 function authorize() {
-    const scope = 'user-read-currently-playing user-read-playback-state';
-    window.location.href = `${AUTHORIZE_URL}?client_id=${CLIENT_ID}&response_type=code&redirect_uri=${encodeURIComponent(redirectUri)}&scope=${encodeURIComponent(scope)}`;
+    window.location.href = '/api/spotify-auth';
 }
 
 async function getAccessToken(code) {
@@ -68,23 +78,20 @@ async function getAccessToken(code) {
 }
 
 async function refreshAccessToken() {
-    const response = await fetch(TOKEN_URL, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'Authorization': 'Basic ' + btoa(CLIENT_ID + ':' + CLIENT_SECRET)
-        },
-        body: `grant_type=refresh_token&refresh_token=${refreshToken}`
-    });
+    try {
+        const response = await fetch('/api/refresh_token?refresh_token=' + refreshToken);
+        const data = await response.json();
+        accessToken = data.access_token;
+        expirationTime = Date.now() + data.expires_in * 1000;
 
-    const data = await response.json();
-    accessToken = data.access_token;
-    expirationTime = Date.now() + data.expires_in * 1000;
+        localStorage.setItem('spotify_access_token', accessToken);
+        localStorage.setItem('spotify_expiration_time', expirationTime);
 
-    localStorage.setItem('spotify_access_token', accessToken);
-    localStorage.setItem('spotify_expiration_time', expirationTime);
-
-    startApp();
+        startApp();
+    } catch (error) {
+        console.error('Error refreshing token:', error);
+        authorize(); // Re-authorize if refresh fails
+    }
 }
 
 let playlistCache = {};
