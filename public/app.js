@@ -1,6 +1,6 @@
 // UPDATE THESE TWO VARIABLES WITH YOUR SPOTIFY APP CREDENTIALS
-const CLIENT_ID = process.env.SPOTIFY_CLIENT_ID;
-const CLIENT_SECRET = process.env.SPOTIFY_CLIENT_SECRET;
+// const CLIENT_ID = process.env.SPOTIFY_CLIENT_ID;
+// const CLIENT_SECRET = process.env.SPOTIFY_CLIENT_SECRET;
 
 const redirectUri = 'https://v2-0-vercel-real.vercel.app/callback'; // Update this to your redirect URI
 
