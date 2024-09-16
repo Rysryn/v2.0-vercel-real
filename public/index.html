@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spotify Now Playing</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.3.0/color-thief.umd.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+</head>
+<body>
+    <i class="material-icons" id="settings"><a href="../customiser/index.html" >settings</a></i>
+    <div id="app">
+        <div id="details">
+            <div id="now-playing">
+                <div id="clock"></div>
+                <img id="album-art" alt="Album Art">
+                <div id="song-details-container">
+                    <div id="song-details" class="full">
+                        <div id="song-info">
+                            <h2 id="song-name">Not Playing</h2>
+                            <p id="artist-name">-</p>
+                            <p id="album-name"></p>
+                        </div>
+                        <div id="time-info-container">
+                            <div id="time-info">
+                                <span id="current-time">0:00</span>
+                                <span id="total-time">0:00</span>
+                            </div>
+                            <div id="progress-bar">
+                                <div id="progress"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="next-song-modal" class="hidden">
+                        <img id="next-album-art" alt="Next Album Art">
+                        <div id="next-song-details">
+                            <h3>Next Song</h3>
+                            <p id="next-song-name"></p>
+                            <p id="next-artist-name"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="daydate">
+            <span id="day"></span>
+            <span id="date"></span>
+        </div>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>

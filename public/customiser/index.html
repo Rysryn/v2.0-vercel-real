@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vinyl 1.0 Wallpaper Settings</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+</head>
+<body>
+    <nav id="navigation">
+        <i class="material-icons"><a href="../index.html">
+            <span class="material-symbols-outlined">
+                arrow_back
+            </span></a></i>
+            <span>
+                Settings /
+            </Span>
+            <span>
+                Wallpapers
+            </Span>
+    </nav>
+    <div class="container">
+        <div id="header-container">
+            <header>
+                <h1>Wallpaper</h1>
+                <p>Add a new wallpaper and clock style. Bring a little flair to your Vinyl</p>
+            </header>
+            <button id="addWallpaperBtn" class="add-btn">+</button>
+        </div>
+        <main>
+            <div id="wallpaperGrid"></div>
+            
+        </main>
+        <div id="addWallpaperModal" class="modal">
+            <div class="modal-content">
+                <h2>Add New Wallpaper</h2>
+                <form id="wallpaperForm">
+                    <input type="text" id="imagePath" placeholder="Image path or URL" required>
+                    <input type="color" id="clockColor" required>
+                    <select id="fontSource">
+                        <option value="default">Default Font</option>
+                        <option value="google">Google Font</option>
+                        <option value="custom">Custom Font</option>
+                    </select>
+                    <input type="text" id="googleFont" placeholder="Google Font name">
+                    <input type="file" id="customFontFile" accept=".ttf,.otf,.woff,.woff2">
+                    <div id="fontWeightContainer">
+                        <label for="fontWeight">Font Weight:</label>
+                        <input type="range" id="fontWeight" min="100" max="900" step="100" value="400">
+                        <span id="fontWeightValue">400</span>
+                    </div>
+                    <div class="preview">
+                        <div id="previewWallpaper" class="wallpaper-item">
+                            <span class="clock">10:03</span>
+                        </div>
+                    </div>
+                    <button type="submit">Add</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
